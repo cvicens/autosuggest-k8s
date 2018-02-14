@@ -20,21 +20,25 @@ spec:
       - name: autosuggest-cache
         image: "eu.gcr.io/autosuggest-194816/autosuggest-cache:latest"
         env:
-          - name: DB_USERNAME
+          - name: CACHE_USERNAME
             valueFrom:
               secretKeyRef:
                 name: cache-secret
                 key: username
-          - name: DB_PASSWORD
+          - name: CACHE_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: cache-secret
                 key: password
-          - name: DB_ADMIN_PASSWORD
+          - name: CACHE_ADMIN_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: cache-secret
                 key: admin-password
+          - name: CACHE_HOST
+            value: "autosuggest-cache-redis-service"
+          - name: CACHE_PORT
+            value: "6379"
         resources:
           requests:
             cpu: 100m
