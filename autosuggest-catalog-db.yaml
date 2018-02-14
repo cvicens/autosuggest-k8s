@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: catalog-db-secret
+type: Opaque
+data:
+  # mongo / xR5T6543gF / yT5Tht43WF
+  username: bW9uZ28=
+  password: eFI1VDY1NDNnRg==
+  admin-password: eVQ1VGh0NDNXRg==
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: autosuggest-catalog-db-deployment
+  labels:
+    app: autosuggest-catalog-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: autosuggest-catalog-db
+  template:
+    metadata:
+      labels:
+        app: autosuggest-catalog-db
+        tier: backend
+    spec:
+      containers:
+      - name: autosuggest-catalog-db
+        image: "mongo:3.6.2"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+          - name: mongo
+            containerPort: 27017
+        volumeMounts:
+            - name: autosuggest-catalog-db-storage
+              mountPath: /data/db
+        env:
+          - name: MONGODB_USER
+            valueFrom:
+              secretKeyRef:
+                key: username
+                name: catalog-db-secret
+          - name: MONGODB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: password
+                name: catalog-db-secret
+          - name: MONGODB_ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: admin-password
+                name: catalog-db-secret
+          - name: MONGODB_DATABASE
+            value: sampledb
+      volumes:
+          - name: autosuggest-catalog-db-storage
+            gcePersistentDisk:
+              pdName: autosuggest-catalog-db-disk
+              fsType: ext4
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: autosuggest-catalog-db-service
+spec:
+  selector:
+    app: autosuggest-catalog-db
+    tier: backend
+  ports:
+  - protocol: TCP
+    port: 27017
+    targetPort: 27017
+  type: ClusterIP

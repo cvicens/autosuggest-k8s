@@ -1,0 +1,59 @@
+---  
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: autosuggest-cache-deployment
+  labels:
+    app: autosuggest-cache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: autosuggest-cache
+  template:
+    metadata:
+      labels:
+        app: autosuggest-cache
+        tier: backend
+    spec:
+      containers:
+      - name: autosuggest-cache
+        image: "eu.gcr.io/autosuggest-194816/autosuggest-cache:latest"
+        env:
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: cache-secret
+                key: username
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: cache-secret
+                key: password
+          - name: DB_ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: cache-secret
+                key: admin-password
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+          - name: http
+            containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: autosuggest-cache-service
+spec:
+  selector:
+    app: autosuggest-cache
+    tier: backend
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+    nodePort: 30041
+  type: LoadBalancer

@@ -1,0 +1,63 @@
+---  
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: autosuggest-catalog-deployment
+  labels:
+    app: autosuggest-catalog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: autosuggest-catalog
+  template:
+    metadata:
+      labels:
+        app: autosuggest-catalog
+        tier: backend
+    spec:
+      containers:
+      - name: autosuggest-catalog
+        image: "eu.gcr.io/autosuggest-194816/autosuggest-cache:latest"
+        env:
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: catalog-db-secret
+                key: username
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: catalog-db-secret
+                key: password
+          - name: DB_ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: catalog-db-secret
+                key: admin-password
+          - name: DB_HOST
+            value: "autosuggest-catalog-db-service"
+          - name: DB_PORT
+            value: "27017"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+          - name: http
+            containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: autosuggest-catalog-service
+spec:
+  selector:
+    app: autosuggest-catalog
+    tier: backend
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+    nodePort: 30141
+  type: LoadBalancer

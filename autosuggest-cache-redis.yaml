@@ -1,0 +1,61 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cache-secret
+type: Opaque
+data:
+  # mongo / xR5T6543gF / yT5Tht43WF
+  username: bW9uZ28=
+  password: eFI1VDY1NDNnRg==
+  admin-password: eVQ1VGh0NDNXRg==
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: autosuggest-cache-redis-deployment
+  labels:
+    app: autosuggest-cache-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: autosuggest-cache-redis
+  template:
+    metadata:
+      labels:
+        app: autosuggest-cache-redis
+        tier: backend
+    spec:
+      containers:
+      - name: autosuggest-cache-redis
+        image: "redis:4.0.8-alpine"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+          - name: redis
+            containerPort: 6379
+        volumeMounts:
+            - name: autosuggest-cache-redis-storage
+              mountPath: /data
+      volumes:
+          - name: autosuggest-cache-redis-storage
+            gcePersistentDisk:
+              pdName: autosuggest-cache-disk
+              fsType: ext4
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: autosuggest-cache-redis-service
+spec:
+  selector:
+    app: autosuggest-cache-redis
+    tier: backend
+  ports:
+  - protocol: TCP
+    port: 6379
+    targetPort: 6379
+  type: ClusterIP
