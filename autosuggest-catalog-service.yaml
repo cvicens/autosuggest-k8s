@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: autosuggest-catalog
-        image: "eu.gcr.io/autosuggest-194816/autosuggest-cache:latest"
+        image: "eu.gcr.io/autosuggest-194816/autosuggest-catalog:latest"
         env:
           - name: DB_USERNAME
             valueFrom:
