@@ -1,0 +1,33 @@
+---
+  kind: Service
+  apiVersion: v1
+  metadata:
+    name: autosuggest-cache-redis-service-external
+  spec:
+    type: LoadBalancer
+    selector:
+      app: autosuggest-cache-redis
+    ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+    
+---
+  kind: Service
+  apiVersion: v1
+  metadata:
+    name: autosuggest-cache-redis-service-internal
+    annotations:
+      cloud.google.com/load-balancer-type: "Internal"
+    labels:
+      app: echo
+  spec:
+    type: LoadBalancer
+    selector:
+      app: autosuggest-cache-redis
+    #loadBalancerIP: [IP_ADDRESS]
+    ports:
+    - protocol: TCP
+      port: 6379
+      
+  
