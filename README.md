@@ -33,7 +33,6 @@ gcloud container clusters create $CLUSTER_NAME \
 ```
 
 ## Get credentials
-
 gcloud container clusters get-credentials autosuggest-cluster --zone europe-west1-d --project autosuggest-194816
 
 ## Get URL
@@ -48,7 +47,6 @@ gke-autosuggest-cluster-default-pool-dae34eb8-hp17   Ready     <none>    1d     
 
 
 ## Create a namespace
-
 kubectl create namespace autosuggest-dev
 
 ## Create frontend app
@@ -56,9 +54,7 @@ kubectl create -n autosuggest-dev -f ./autosuggest-app.yaml
 kubectl expose deployment autosuggest-app-deployment --type=LoadBalancer --name=autosuggest-app-service
 
 
-
 ## Create your Kubernetes Cluster
-
 A cluster consists of a Master API server and a set of worker VMs called Nodes.
 First, choose a Google Cloud Project zone to run your service. For this tutorial, we will be using us-central1-a. This is configured on the command line via:
 

@@ -60,7 +60,7 @@ spec:
       volumes:
           - name: autosuggest-catalog-db-storage
             gcePersistentDisk:
-              pdName: autosuggest-catalog-db-disk
+              pdName: autosuggest-catalog-db-disk-dev
               fsType: ext4
 ---
 kind: Service

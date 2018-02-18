@@ -43,7 +43,7 @@ spec:
       volumes:
           - name: autosuggest-cache-redis-storage
             gcePersistentDisk:
-              pdName: autosuggest-cache-disk
+              pdName: autosuggest-cache-disk-dev
               fsType: ext4
 ---
 kind: Service
