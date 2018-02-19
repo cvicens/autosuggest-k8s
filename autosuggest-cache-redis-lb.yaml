@@ -2,7 +2,7 @@
   kind: Service
   apiVersion: v1
   metadata:
-    name: autosuggest-cache-redis-service-external
+    name: autosuggest-cache-redis-lb-external
   spec:
     type: LoadBalancer
     selector:
@@ -16,7 +16,7 @@
   kind: Service
   apiVersion: v1
   metadata:
-    name: autosuggest-cache-redis-service-internal
+    name: autosuggest-cache-redis-lb-internal
     annotations:
       cloud.google.com/load-balancer-type: "Internal"
     labels:

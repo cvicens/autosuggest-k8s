@@ -36,3 +36,4 @@ gcloud compute --project=${PROJECT_ID} disks create ${CACHE_DISK_NAME} --zone=${
 #kubectl create -n ${NAMESPACE} -f ./autosuggest-infra.yaml => disks are created directly... so no need for PVs, PVCs... although we should do it using them...
 kubectl create -n ${NAMESPACE} -f ./autosuggest-catalog-db.yaml
 kubectl create -n ${NAMESPACE} -f ./autosuggest-cache-redis.yaml
+kubectl create -n ${NAMESPACE} -f ./autosuggest-cache-redis-lb.yaml
