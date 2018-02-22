@@ -157,3 +157,47 @@ kubectl get services $CONTAINER_NAME
 NAME            CLUSTER-IP      EXTERNAL-IP     PORT(S)          AGE
 viralmar-site   10.107.241.37   146.148.29.51   8080:32110/TCP   1m
 ```
+
+## Permissions, Service Accounts, for Cloud Builder
+
+$ gcloud projects get-iam-policy autosuggest-194816
+bindings:
+- members:
+  - serviceAccount:833674540613@cloudbuild.gserviceaccount.com
+  role: roles/cloudbuild.builds.builder
+- members:
+  - serviceAccount:833674540613@cloudbuild.gserviceaccount.com
+  role: roles/container.admin
+- members:
+  - serviceAccount:service-833674540613@container-engine-robot.iam.gserviceaccount.com
+  role: roles/container.serviceAgent
+- members:
+  - serviceAccount:service-833674540613@dataflow-service-producer-prod.iam.gserviceaccount.com
+  role: roles/dataflow.serviceAgent
+- members:
+  - serviceAccount:833674540613-compute@developer.gserviceaccount.com
+  - serviceAccount:833674540613@cloudservices.gserviceaccount.com
+  - serviceAccount:service-833674540613@containerregistry.iam.gserviceaccount.com
+  role: roles/editor
+- members:
+  - user:virginia@viralmar.es
+  role: roles/owner
+- members:
+  - serviceAccount:service-833674540613@sourcerepo-service-accounts.iam.gserviceaccount.com
+  role: roles/sourcerepo.serviceAgent
+etag: BwVlqb5SLg0=
+version: 1
+
+
+## DNS
+eu.autosuggest.apps.viralmar.es. 	A 	300 	35.205.110.122	
+eu.cache.apps.viralmar.es. 	A 	300 	35.189.246.239
+eu.catalog.apps.viralmar.es. 	A 	300 	35.195.141.41
+us.autosuggest.apps.viralmar.es. 	A 	300 	35.188.41.60
+us.cache.apps.viralmar.es. 	A 	300 	35.192.170.40
+us.catalog.apps.viralmar.es. 	A 	300 	35.192.57.254
+
+## kubernetes dashboard
+
+gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${COMPUTE_ZONE} --project ${PROJECT_ID}
+kubectl proxy --port=0 & 
