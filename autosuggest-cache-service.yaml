@@ -19,6 +19,24 @@ spec:
       containers:
       - name: autosuggest-cache
         image: "eu.gcr.io/autosuggest-194816/autosuggest-cache:latest"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+            httpHeaders:
+            - name: X-Custom-Header
+              value: Awesome
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+            httpHeaders:
+            - name: X-Custom-Header
+              value: Awesome
+          initialDelaySeconds: 3
+          periodSeconds: 3
         env:
           - name: CACHE_USERNAME
             valueFrom:

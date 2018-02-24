@@ -1,0 +1,9 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: autosuggest-cache-ingress
+spec:
+  backend:
+    serviceName: autosuggest-cache-service
+    servicePort: 8080

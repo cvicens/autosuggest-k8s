@@ -1,7 +1,5 @@
 #!/bin/sh
 
-#!/bin/sh
-
 # https://cloud.google.com/kubernetes-engine/docs/how-to/stateful-apps
 
 if [ "$#" -ne 4 ]; then

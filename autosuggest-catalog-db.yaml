@@ -20,6 +20,8 @@ spec:
   selector:
     matchLabels:
       app: autosuggest-catalog-db
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
