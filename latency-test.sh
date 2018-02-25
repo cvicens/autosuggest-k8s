@@ -20,6 +20,14 @@ fi
 
 ab -n ${REQUESTS} -c ${CONCURRENCY} http://cdn.cache.apps.viralmar.es/cache/products/${TERM}
 
+# Hints
+echo "Create VM in the US:"
+echo "gcloud compute instances create us-latency-test --zone us-central1-a"
+echo "Execute test"
+echo "ab -n ${REQUESTS} -c ${CONCURRENCY} http://us.cache.apps.viralmar.es:8080/cache/products/${TERM}"
+echo "Delete VM"
+echo "gcloud compute instances delete us-latency-test --zone us-central1-a"
+
 exit 0 
 
 
