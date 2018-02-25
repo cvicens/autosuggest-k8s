@@ -1,0 +1,27 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: autosuggest-cron
+spec:
+  schedule: "* */15 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: autosuggest-cron
+            image: google/cloud-sdk:latest
+            args:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+            volumeMounts:
+            - name: autosuggest-cron-storage
+              mountPath: /data
+          restartPolicy: OnFailure
+          volumes:
+            - name: autosuggest-cron-storage
+              gcePersistentDisk:
+                pdName: autosuggest-cron-disk-dev
+                fsType: ext4
+          

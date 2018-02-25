@@ -32,6 +32,11 @@ export CACHE_DISK_TYPE="pd-standard"
 export CACHE_DISK_SIZE="20GB"
 gcloud compute --project=${PROJECT_ID} disks create ${CACHE_DISK_NAME} --zone=${COMPUTE_ZONE} --type=${CACHE_DISK_TYPE} --size=${CACHE_DISK_SIZE}
 
+export CACHE_DISK_NAME="autosuggest-cron-disk-dev"
+export CACHE_DISK_TYPE="pd-standard"
+export CACHE_DISK_SIZE="20GB"
+gcloud compute --project=${PROJECT_ID} disks create ${CACHE_DISK_NAME} --zone=${COMPUTE_ZONE} --type=${CACHE_DISK_TYPE} --size=${CACHE_DISK_SIZE}
+
 # Add resources to kube
 #kubectl create -n ${NAMESPACE} -f ./autosuggest-infra.yaml => disks are created directly... so no need for PVs, PVCs... although we should do it using them...
 kubectl create -n ${NAMESPACE} -f ./autosuggest-catalog-db.yaml
