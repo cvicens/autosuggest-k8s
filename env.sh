@@ -6,7 +6,7 @@ export DEV_NAMESPACE="autosuggest-dev"
 
 export NETWORK_NAME="autosuggest-network"
 
-export MACHINE_TYPE="n1-standard-1"
+export MACHINE_TYPE="n1-standard-2"
 export NUM_NODES="3"
 export DISK_SIZE="40"
 
